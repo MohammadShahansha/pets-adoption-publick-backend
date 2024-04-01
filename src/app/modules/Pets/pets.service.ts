@@ -1,20 +1,10 @@
-import { Prisma } from "@prisma/client";
+import { Pet, Prisma } from "@prisma/client";
 import catchAsync from "../../../shared/catchAsync";
 import prisma from "../../../shared/prisma";
 import { petSearchFields } from "./pets.constant";
 import { paginateHelpers } from "../../../helpers/paginationHelpers";
-type TPets = {
-  name: string;
-  species: string;
-  breed: string;
-  age: number;
-  size: string;
-  location: string;
-  description: string;
-  temperament: string;
-  medicalHistory: string;
-  adoptionRequirements: string;
-};
+import { TPets } from "./pets.types";
+
 const creatPets = async (payload: TPets) => {
   const result = await prisma.pet.create({
     data: payload,
@@ -74,8 +64,17 @@ const getAllPet = async (params: any, options: any) => {
     data: result,
   };
 };
-
+const updatePet = async (petId: string, data: Partial<Pet>): Promise<Pet> => {
+  const result = await prisma.pet.update({
+    where: {
+      id: petId,
+    },
+    data,
+  });
+  return result;
+};
 export const petService = {
   creatPets,
   getAllPet,
+  updatePet,
 };

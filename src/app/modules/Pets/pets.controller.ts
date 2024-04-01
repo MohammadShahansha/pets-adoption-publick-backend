@@ -25,7 +25,19 @@ const getAllPet = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const updatePet = catchAsync(async (req: Request, res: Response) => {
+  const { petId } = req.params;
+
+  const result = await petService.updatePet(petId, req.body);
+  sendRespons(res, {
+    statusCode: 200,
+    success: true,
+    message: "Pet profile updated successfully",
+    data: result,
+  });
+});
 export const petController = {
   createpet,
   getAllPet,
+  updatePet,
 };
