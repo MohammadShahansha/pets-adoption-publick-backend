@@ -2,6 +2,7 @@ import express from "express";
 import { userRoutes } from "../modules/users/user.route";
 import { authRouter } from "../modules/Auth/auth.route";
 import { petRoutes } from "../modules/Pets/pets.routes";
+import { adoptionReqRouter } from "../modules/AdoptionRequest/adoptionReq.routes";
 
 const router = express.Router();
 const moduleRoute = [
@@ -16,6 +17,10 @@ const moduleRoute = [
   {
     path: "/pets",
     route: petRoutes,
+  },
+  {
+    path: "/",
+    route: adoptionReqRouter,
   },
 ];
 

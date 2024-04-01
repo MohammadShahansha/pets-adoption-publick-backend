@@ -38,6 +38,7 @@ const getAllPet = async (params: any, options: any) => {
       })),
     });
   }
+
   const whereCondition: Prisma.PetWhereInput = { AND: andCondition };
   const result = await prisma.pet.findMany({
     where: whereCondition,
