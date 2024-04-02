@@ -25,7 +25,23 @@ const getAllAdoptionReq = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
+const updateAdoptionReq = catchAsync(async (req: Request, res: Response) => {
+  const { requestId } = req.params;
+
+  const result = await adoptionReqService.updateAdoptionReq(
+    requestId,
+    req.body
+  );
+  sendRespons(res, {
+    statusCode: 200,
+    success: true,
+    message: "Adoption request updated successfully",
+    data: result,
+  });
+});
 export const adoptionReqController = {
   createAdoptionReq,
   getAllAdoptionReq,
+  updateAdoptionReq,
 };

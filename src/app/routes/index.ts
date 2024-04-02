@@ -1,14 +1,15 @@
 import express from "express";
-import { userRoutes } from "../modules/users/user.route";
+import { registerRoutes } from "../modules/Register/register.route";
 import { authRouter } from "../modules/Auth/auth.route";
 import { petRoutes } from "../modules/Pets/pets.routes";
 import { adoptionReqRouter } from "../modules/AdoptionRequest/adoptionReq.routes";
+import { userRoutes } from "../modules/User/user.routes";
 
 const router = express.Router();
 const moduleRoute = [
   {
     path: "/register",
-    route: userRoutes,
+    route: registerRoutes,
   },
   {
     path: "/login",
@@ -21,6 +22,10 @@ const moduleRoute = [
   {
     path: "/",
     route: adoptionReqRouter,
+  },
+  {
+    path: "/profile",
+    route: userRoutes,
   },
 ];
 

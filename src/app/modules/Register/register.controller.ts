@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { userService } from "./user.service";
+import { registrationService } from "./register.service";
 import sendRespons from "../../../shared/sendResponse";
 import httpStatus from "http-status";
 import catchAsync from "../../../shared/catchAsync";
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
-  const result = await userService.createUser(req.body);
+  const result = await registrationService.createUser(req.body);
   const { id, name, email, createdAt, updatedAt } = result;
   const resultWithoutPassword = {
     id,
@@ -21,6 +21,6 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
     data: resultWithoutPassword,
   });
 });
-export const userController = {
+export const registrationController = {
   createUser,
 };

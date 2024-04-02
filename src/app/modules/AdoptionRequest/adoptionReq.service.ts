@@ -3,6 +3,7 @@ import config from "../../../config";
 import { jwtHelper } from "../../../helpers/jwtHelpers";
 import prisma from "../../../shared/prisma";
 import { TAdoptionReq } from "./adoptionReqTypes";
+import { AdoptionRequest } from "@prisma/client";
 
 const createAdoptionReq = async (token: string, payload: TAdoptionReq) => {
   let decodedData;
@@ -31,7 +32,20 @@ const getAllAdoptionReq = async () => {
   const result = await prisma.adoptionRequest.findMany();
   return result;
 };
+const updateAdoptionReq = async (
+  requestId: string,
+  payload: Partial<AdoptionRequest>
+): Promise<AdoptionRequest> => {
+  const result = await prisma.adoptionRequest.update({
+    where: {
+      id: requestId,
+    },
+    data: payload,
+  });
+  return result;
+};
 export const adoptionReqService = {
   createAdoptionReq,
   getAllAdoptionReq,
+  updateAdoptionReq,
 };
