@@ -17,7 +17,8 @@ const createAdoptionReq = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const getAllAdoptionReq = catchAsync(async (req: Request, res: Response) => {
-  const result = await adoptionReqService.getAllAdoptionReq();
+  const token = req.headers.authorization;
+  const result = await adoptionReqService.getAllAdoptionReq(token as string);
   sendRespons(res, {
     statusCode: 201,
     success: true,
@@ -28,8 +29,9 @@ const getAllAdoptionReq = catchAsync(async (req: Request, res: Response) => {
 
 const updateAdoptionReq = catchAsync(async (req: Request, res: Response) => {
   const { requestId } = req.params;
-
+  const token = req.headers.authorization;
   const result = await adoptionReqService.updateAdoptionReq(
+    token as string,
     requestId,
     req.body
   );

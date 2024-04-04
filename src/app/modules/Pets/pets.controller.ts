@@ -6,7 +6,8 @@ import pick from "../../../shared/pick";
 import { petFilterableFields } from "./pets.constant";
 
 const createpet = catchAsync(async (req: Request, res: Response) => {
-  const result = await petService.creatPets(req.body);
+  const token = req.headers.authorization;
+  const result = await petService.creatPets(token as string, req.body);
   sendRespons(res, {
     statusCode: 201,
     success: true,
@@ -27,8 +28,8 @@ const getAllPet = catchAsync(async (req: Request, res: Response) => {
 });
 const updatePet = catchAsync(async (req: Request, res: Response) => {
   const { petId } = req.params;
-
-  const result = await petService.updatePet(petId, req.body);
+  const token = req.headers.authorization;
+  const result = await petService.updatePet(token as string, petId, req.body);
   sendRespons(res, {
     statusCode: 200,
     success: true,

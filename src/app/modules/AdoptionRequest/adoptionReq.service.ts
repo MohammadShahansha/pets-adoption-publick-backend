@@ -10,7 +10,7 @@ const createAdoptionReq = async (token: string, payload: TAdoptionReq) => {
   try {
     decodedData = jwtHelper.verifyToken(token, config.jwt.jwt_secret as Secret);
   } catch (err) {
-    throw new Error("You are not authorized");
+    throw new Error("Unauthorized Access");
   }
   const isUserExist = await prisma.user.findUniqueOrThrow({
     where: {
@@ -28,14 +28,27 @@ const createAdoptionReq = async (token: string, payload: TAdoptionReq) => {
   return result;
 };
 
-const getAllAdoptionReq = async () => {
+const getAllAdoptionReq = async (token: string) => {
+  let decodedData;
+  try {
+    decodedData = jwtHelper.verifyToken(token, config.jwt.jwt_secret as Secret);
+  } catch (err) {
+    throw new Error("Unauthorized Access");
+  }
   const result = await prisma.adoptionRequest.findMany();
   return result;
 };
 const updateAdoptionReq = async (
+  token: string,
   requestId: string,
   payload: Partial<AdoptionRequest>
 ): Promise<AdoptionRequest> => {
+  let decodedData;
+  try {
+    decodedData = jwtHelper.verifyToken(token, config.jwt.jwt_secret as Secret);
+  } catch (err) {
+    throw new Error("Unauthorized Access");
+  }
   const result = await prisma.adoptionRequest.update({
     where: {
       id: requestId,

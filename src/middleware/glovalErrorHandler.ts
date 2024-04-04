@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
-
 type TResponse = {
   success?: boolean;
   message?: string;

@@ -4,8 +4,18 @@ import prisma from "../../../shared/prisma";
 import { petSearchFields } from "./pets.constant";
 import { paginateHelpers } from "../../../helpers/paginationHelpers";
 import { TPets } from "./pets.types";
+import { jwtHelper } from "../../../helpers/jwtHelpers";
+import config from "../../../config";
+import { Secret } from "jsonwebtoken";
 
-const creatPets = async (payload: TPets) => {
+const creatPets = async (token: string, payload: TPets) => {
+  let decodedData;
+  try {
+    decodedData = jwtHelper.verifyToken(token, config.jwt.jwt_secret as Secret);
+  } catch (err) {
+    throw new Error("Unauthorized Access");
+  }
+
   const result = await prisma.pet.create({
     data: payload,
   });
@@ -65,7 +75,17 @@ const getAllPet = async (params: any, options: any) => {
     data: result,
   };
 };
-const updatePet = async (petId: string, data: Partial<Pet>): Promise<Pet> => {
+const updatePet = async (
+  token: string,
+  petId: string,
+  data: Partial<Pet>
+): Promise<Pet> => {
+  let decodedData;
+  try {
+    decodedData = jwtHelper.verifyToken(token, config.jwt.jwt_secret as Secret);
+  } catch (err) {
+    throw new Error("Unauthorized Access");
+  }
   const result = await prisma.pet.update({
     where: {
       id: petId,
