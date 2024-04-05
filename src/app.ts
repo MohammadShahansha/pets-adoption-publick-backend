@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req: Request, res: Response) => {
   res.send({
-    Message: "Ph Helth Care Server is Running.....",
+    Message: "pet adoption project is running.....",
   });
 });
 

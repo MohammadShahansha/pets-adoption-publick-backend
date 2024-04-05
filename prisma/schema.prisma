@@ -63,11 +63,6 @@ model AdoptionRequest {
 @@map("adoptionRequests")
 }
 
-enum UserRole {
-  SUPER_ADMIN
-  ADMIN
-  USER
-}
 
 enum UserStatus {
   ACTIVE
