@@ -14,60 +14,75 @@ datasource db {
 }
 
 model User {
-id String @id @default(uuid())
-name String
-email String @unique
-password String
-createdAt DateTime @default(now())
-updatedAt DateTime @updatedAt
+  id                 String     @id @default(uuid())
+  name               String
+  email              String     @unique
+  password           String
+  photo              String?
+  role               UserRole
+  needPasswordChange Boolean    @default(true)
+  status             UserStatus @default(ACTIVE)
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
 
-aduptionRequest AdoptionRequest[]
+  aduptionRequest AdoptionRequest[]
 
-@@map("users")
+  @@map("users")
 }
 
 model Pet {
-id String @id @default(uuid())
-name String
-species String
-breed String
-age Int
-size String
-location String
-description String
-temperament String
-medicalHistory String
-adoptionRequirements String
-createdAt DateTime @default(now())
-updatedAt DateTime @updatedAt
+  id                   String   @id @default(uuid())
+  name                 String
+  species              String
+  breed                String
+  age                  Int
+  size                 String
+  gender               Gender
+  location             String
+  specialNeeds         String
+  image                String
+  helthStatus          String
+  description          String
+  temperament          String
+  medicalHistory       String
+  adoptionRequirements String
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
 
-adoptionRequest AdoptionRequest[]
+  adoptionRequest AdoptionRequest[]
 
-@@map("pets")
-
+  @@map("pets")
 }
 
 model AdoptionRequest {
-  id String @id @default(uuid())
-  user User @relation(fields: [userId], references: [id])
-  userId String
-  pet Pet @relation(fields: [petId], references: [id])
-  petId String
-  status RequestStatus @default(PENDING)
+  id                     String        @id @default(uuid())
+  user                   User          @relation(fields: [userId], references: [id])
+  userId                 String
+  pet                    Pet           @relation(fields: [petId], references: [id])
+  petId                  String
+  status                 RequestStatus @default(PENDING)
   petOwnershipExperience String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-
-@@map("adoptionRequests")
+  @@map("adoptionRequests")
 }
 
+enum UserRole {
+  ADMIN
+  USER
+}
 
 enum UserStatus {
   ACTIVE
   BLOCKED
   DELETED
+}
+
+enum Gender {
+  MALE
+  FEMALE
 }
 
 enum RequestStatus {

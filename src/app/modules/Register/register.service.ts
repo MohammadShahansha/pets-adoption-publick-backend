@@ -6,6 +6,7 @@ const createUser = async (data: any) => {
   const userData = {
     name: data.name,
     email: data.email,
+    role: data.role,
     password: hashedPassword,
   };
 

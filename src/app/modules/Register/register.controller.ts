@@ -6,11 +6,12 @@ import catchAsync from "../../../shared/catchAsync";
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
   const result = await registrationService.createUser(req.body);
-  const { id, name, email, createdAt, updatedAt } = result;
+  const { id, name, email, role, createdAt, updatedAt } = result;
   const resultWithoutPassword = {
     id,
     name,
     email,
+    role,
     createdAt,
     updatedAt,
   };
