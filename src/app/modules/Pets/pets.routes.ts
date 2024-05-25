@@ -12,4 +12,6 @@ router.post(
 );
 router.get("/", petController.getAllPet);
 router.put("/:petId", petController.updatePet);
+router.delete("/:petId", petController.deletePet);
+router.get("/:petId", petController.getSinglePet);
 export const petRoutes = router;

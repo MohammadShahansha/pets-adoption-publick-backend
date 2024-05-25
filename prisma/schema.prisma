@@ -36,7 +36,7 @@ model Pet {
   species              String
   breed                String
   age                  Int
-  size                 String
+  size                 PetSize
   gender               Gender
   location             String
   specialNeeds         String

@@ -8,7 +8,7 @@ import { userRoutes } from "../modules/User/user.routes";
 const router = express.Router();
 const moduleRoute = [
   {
-    path: "/register",
+    path: "/",
     route: registerRoutes,
   },
   {
@@ -24,7 +24,7 @@ const moduleRoute = [
     route: adoptionReqRouter,
   },
   {
-    path: "/profile",
+    path: "/",
     route: userRoutes,
   },
 ];

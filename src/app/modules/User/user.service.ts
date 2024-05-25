@@ -3,8 +3,9 @@ import config from "../../../config";
 import { jwtHelper } from "../../../helpers/jwtHelpers";
 import prisma from "../../../shared/prisma";
 import { User } from "@prisma/client";
+import { TUser } from "./types";
 
-const getUser = async (token: string) => {
+const getMe = async (token: string) => {
   let decodedData;
   try {
     decodedData = jwtHelper.verifyToken(token, config.jwt.jwt_secret as Secret);
@@ -27,10 +28,7 @@ const getUser = async (token: string) => {
   return result;
 };
 
-const updateUser = async (
-  token: string,
-  data: Partial<User>
-): Promise<User> => {
+const updateMe = async (token: string, data: Partial<User>): Promise<User> => {
   let decodedData;
   try {
     decodedData = jwtHelper.verifyToken(token, config.jwt.jwt_secret as Secret);
@@ -52,7 +50,32 @@ const updateUser = async (
 
   return result;
 };
+
+const getAllUsers = async () => {
+  const result = await prisma.user.findMany();
+  return result;
+};
+const updateUsers = async (id: string, data: TUser) => {
+  const result = await prisma.user.update({
+    where: {
+      id: id,
+    },
+    data,
+  });
+  return result;
+};
+const deleteUser = async (id: string) => {
+  const result = await prisma.user.delete({
+    where: {
+      id: id,
+    },
+  });
+  return result;
+};
 export const userService = {
-  getUser,
-  updateUser,
+  getMe,
+  updateMe,
+  getAllUsers,
+  updateUsers,
+  deleteUser,
 };

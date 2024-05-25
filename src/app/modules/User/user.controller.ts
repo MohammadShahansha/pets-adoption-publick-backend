@@ -3,9 +3,9 @@ import catchAsync from "../../../shared/catchAsync";
 import { userService } from "./user.service";
 import sendRespons from "../../../shared/sendResponse";
 
-const getUser = catchAsync(async (req: Request, res: Response) => {
+const getMe = catchAsync(async (req: Request, res: Response) => {
   const token = req.headers.authorization;
-  const result = await userService.getUser(token as string);
+  const result = await userService.getMe(token as string);
   sendRespons(res, {
     statusCode: 200,
     success: true,
@@ -13,9 +13,9 @@ const getUser = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
-const updateUser = catchAsync(async (req: Request, res: Response) => {
+const updateMe = catchAsync(async (req: Request, res: Response) => {
   const token = req.headers.authorization;
-  const result = await userService.updateUser(token as string, req.body);
+  const result = await userService.updateMe(token as string, req.body);
   const { id, name, email, createdAt, updatedAt } = result;
   const updatedResult = {
     id,
@@ -32,7 +32,41 @@ const updateUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllUsers = catchAsync(async (req: Request, res: Response) => {
+  const result = await userService.getAllUsers();
+  sendRespons(res, {
+    statusCode: 200,
+    success: true,
+    message: "Users retrive successfully",
+    data: result,
+  });
+});
+
+const updateUsers = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await userService.updateUsers(id, req.body);
+
+  sendRespons(res, {
+    statusCode: 200,
+    success: true,
+    message: "User updated successfully",
+    data: result,
+  });
+});
+const deleteUsers = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  await userService.deleteUser(id);
+
+  sendRespons(res, {
+    statusCode: 200,
+    success: true,
+    message: "User deleted successfully",
+  });
+});
 export const userController = {
-  getUser,
-  updateUser,
+  getMe,
+  updateMe,
+  getAllUsers,
+  updateUsers,
+  deleteUsers,
 };

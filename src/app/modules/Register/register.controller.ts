@@ -22,6 +22,7 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
     data: resultWithoutPassword,
   });
 });
+
 export const registrationController = {
   createUser,
 };

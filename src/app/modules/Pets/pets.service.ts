@@ -94,8 +94,48 @@ const updatePet = async (
   });
   return result;
 };
+const deletePet = async (token: string, petId: string) => {
+  let decodedData;
+  try {
+    decodedData = jwtHelper.verifyToken(token, config.jwt.jwt_secret as Secret);
+  } catch (err) {
+    throw new Error("Unauthorized Access");
+  }
+  const result = await prisma.$transaction(async (transectionClient) => {
+    await transectionClient.adoptionRequest.deleteMany({
+      where: {
+        petId: petId,
+      },
+    });
+    const petDelete = await transectionClient.pet.delete({
+      where: {
+        id: petId,
+      },
+    });
+
+    return petDelete;
+  });
+  return result;
+};
+const getSinglePet = async (token: string, petId: string) => {
+  let decodedData;
+  try {
+    decodedData = jwtHelper.verifyToken(token, config.jwt.jwt_secret as Secret);
+  } catch (err) {
+    throw new Error("Unauthorized Access");
+  }
+  const result = await prisma.pet.findUniqueOrThrow({
+    where: {
+      id: petId,
+    },
+  });
+
+  return result;
+};
 export const petService = {
   creatPets,
   getAllPet,
   updatePet,
+  deletePet,
+  getSinglePet,
 };

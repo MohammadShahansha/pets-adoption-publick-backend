@@ -37,8 +37,33 @@ const updatePet = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const deletePet = catchAsync(async (req: Request, res: Response) => {
+  const { petId } = req.params;
+  const token = req.headers.authorization;
+  const result = await petService.deletePet(token as string, petId);
+  // console.log(result);
+  sendRespons(res, {
+    statusCode: 200,
+    success: true,
+    message: "Pet delete successfully",
+  });
+});
+const getSinglePet = catchAsync(async (req: Request, res: Response) => {
+  const { petId } = req.params;
+  const token = req.headers.authorization;
+  const result = await petService.getSinglePet(token as string, petId);
+  // console.log(result);
+  sendRespons(res, {
+    statusCode: 200,
+    success: true,
+    message: "Pet retrive successfully",
+    data: result,
+  });
+});
 export const petController = {
   createpet,
   getAllPet,
   updatePet,
+  deletePet,
+  getSinglePet,
 };
