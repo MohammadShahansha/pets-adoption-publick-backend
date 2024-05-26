@@ -14,5 +14,9 @@ router.put(
   "/adoption-requests/:requestId",
   adoptionReqController.updateAdoptionReq
 );
+router.delete(
+  "/adoption-request/:requestId",
+  adoptionReqController.deleteAdoptionReq
+);
 
 export const adoptionReqRouter = router;

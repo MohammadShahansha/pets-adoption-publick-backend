@@ -35,7 +35,12 @@ const getAllAdoptionReq = async (token: string) => {
   } catch (err) {
     throw new Error("Unauthorized Access");
   }
-  const result = await prisma.adoptionRequest.findMany();
+  const result = await prisma.adoptionRequest.findMany({
+    include: {
+      pet: true,
+      user: true,
+    },
+  });
   return result;
 };
 const updateAdoptionReq = async (
@@ -57,8 +62,25 @@ const updateAdoptionReq = async (
   });
   return result;
 };
+
+const deleteAdoptionReq = async (token: string, requestId: string) => {
+  let decodedData;
+  try {
+    decodedData = jwtHelper.verifyToken(token, config.jwt.jwt_secret as Secret);
+  } catch (err) {
+    throw new Error("Unauthorized Access");
+  }
+  const result = await prisma.adoptionRequest.delete({
+    where: {
+      id: requestId,
+    },
+  });
+  return result;
+};
+
 export const adoptionReqService = {
   createAdoptionReq,
   getAllAdoptionReq,
   updateAdoptionReq,
+  deleteAdoptionReq,
 };

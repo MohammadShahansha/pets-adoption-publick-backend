@@ -42,8 +42,20 @@ const updateAdoptionReq = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
+const deleteAdoptionReq = catchAsync(async (req: Request, res: Response) => {
+  const { requestId } = req.params;
+  const token = req.headers.authorization;
+  await adoptionReqService.deleteAdoptionReq(token as string, requestId);
+  sendRespons(res, {
+    statusCode: 200,
+    success: true,
+    message: "Adoption request deleted successfully",
+  });
+});
 export const adoptionReqController = {
   createAdoptionReq,
   getAllAdoptionReq,
   updateAdoptionReq,
+  deleteAdoptionReq,
 };
