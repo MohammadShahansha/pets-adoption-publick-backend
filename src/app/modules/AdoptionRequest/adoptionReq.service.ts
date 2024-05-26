@@ -43,6 +43,7 @@ const getAllAdoptionReq = async (token: string) => {
   });
   return result;
 };
+
 const updateAdoptionReq = async (
   token: string,
   requestId: string,
@@ -54,12 +55,14 @@ const updateAdoptionReq = async (
   } catch (err) {
     throw new Error("Unauthorized Access");
   }
+
   const result = await prisma.adoptionRequest.update({
     where: {
       id: requestId,
     },
     data: payload,
   });
+  console.log("result:", result, "reqId:", requestId, "payload:", payload);
   return result;
 };
 

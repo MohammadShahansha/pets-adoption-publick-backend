@@ -30,6 +30,7 @@ const getAllAdoptionReq = catchAsync(async (req: Request, res: Response) => {
 const updateAdoptionReq = catchAsync(async (req: Request, res: Response) => {
   const { requestId } = req.params;
   const token = req.headers.authorization;
+  // console.log("body", req.body, "reqId", requestId, "token", token);
   const result = await adoptionReqService.updateAdoptionReq(
     token as string,
     requestId,
