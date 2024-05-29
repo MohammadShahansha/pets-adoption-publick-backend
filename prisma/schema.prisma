@@ -26,6 +26,7 @@ model User {
   updatedAt          DateTime   @updatedAt
 
   aduptionRequest AdoptionRequest[]
+  Review          Review[]
 
   @@map("users")
 }
@@ -69,6 +70,20 @@ model AdoptionRequest {
   @@map("adoptionRequests")
 }
 
+model Review {
+  id                String       @id @default(uuid())
+  user              User         @relation(fields: [userId], references: [id])
+  userId            String
+  rating            String
+  reviewDescription String
+  status            ReviewStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("reviews")
+}
+
 enum UserRole {
   ADMIN
   USER
@@ -95,4 +110,9 @@ enum PetSize {
   SMALL
   MEDIUM
   LARGE
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
 }

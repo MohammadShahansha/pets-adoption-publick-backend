@@ -5,13 +5,16 @@ import httpStatus from "http-status";
 import catchAsync from "../../../shared/catchAsync";
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
+  console.log(req.body);
   const result = await registrationService.createUser(req.body);
-  const { id, name, email, role, createdAt, updatedAt } = result;
+  console.log(result);
+  const { id, name, email, role, photo, createdAt, updatedAt } = result;
   const resultWithoutPassword = {
     id,
     name,
     email,
     role,
+    photo,
     createdAt,
     updatedAt,
   };

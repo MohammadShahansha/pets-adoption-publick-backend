@@ -16,19 +16,20 @@ const getMe = catchAsync(async (req: Request, res: Response) => {
 const updateMe = catchAsync(async (req: Request, res: Response) => {
   const token = req.headers.authorization;
   const result = await userService.updateMe(token as string, req.body);
-  const { id, name, email, createdAt, updatedAt } = result;
-  const updatedResult = {
-    id,
-    name,
-    email,
-    createdAt,
-    updatedAt,
-  };
+  // console.log(result);
+  // const { id, name, email, createdAt, updatedAt } = result;
+  // const updatedResult = {
+  //   id,
+  //   name,
+  //   email,
+  //   createdAt,
+  //   updatedAt,
+  // };
   sendRespons(res, {
     statusCode: 200,
     success: true,
     message: "User profile updated successfully",
-    data: updatedResult,
+    data: result,
   });
 });
 

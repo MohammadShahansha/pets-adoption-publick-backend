@@ -4,6 +4,7 @@ import { authRouter } from "../modules/Auth/auth.route";
 import { petRoutes } from "../modules/Pets/pets.routes";
 import { adoptionReqRouter } from "../modules/AdoptionRequest/adoptionReq.routes";
 import { userRoutes } from "../modules/User/user.routes";
+import { reviewRoutes } from "../modules/Review/review.route";
 
 const router = express.Router();
 const moduleRoute = [
@@ -12,7 +13,7 @@ const moduleRoute = [
     route: registerRoutes,
   },
   {
-    path: "/login",
+    path: "/",
     route: authRouter,
   },
   {
@@ -26,6 +27,10 @@ const moduleRoute = [
   {
     path: "/",
     route: userRoutes,
+  },
+  {
+    path: "/",
+    route: reviewRoutes,
   },
 ];
 

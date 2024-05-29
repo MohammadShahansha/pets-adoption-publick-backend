@@ -17,11 +17,12 @@ const getMe = async (token: string) => {
       email: decodedData.email,
     },
   });
-  const { id, name, email, createdAt, updatedAt } = isUserExist;
+  const { id, name, email, photo, createdAt, updatedAt } = isUserExist;
   const result = {
     id,
     name,
     email,
+    photo,
     createdAt,
     updatedAt,
   };
