@@ -60,10 +60,21 @@ const getSinglePet = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
+const availablePets = catchAsync(async (req: Request, res: Response) => {
+  const result = await petService.availablePets();
+  sendRespons(res, {
+    statusCode: 200,
+    success: true,
+    message: "Available pets retrive successfully",
+    data: result,
+  });
+});
 export const petController = {
   createpet,
   getAllPet,
   updatePet,
   deletePet,
   getSinglePet,
+  availablePets,
 };

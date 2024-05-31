@@ -2,7 +2,7 @@ import { Secret } from "jsonwebtoken";
 import config from "../../../config";
 import { jwtHelper } from "../../../helpers/jwtHelpers";
 import prisma from "../../../shared/prisma";
-import { User } from "@prisma/client";
+import { User, UserStatus } from "@prisma/client";
 import { TUser } from "./types";
 
 const getMe = async (token: string) => {
@@ -17,12 +17,13 @@ const getMe = async (token: string) => {
       email: decodedData.email,
     },
   });
-  const { id, name, email, photo, createdAt, updatedAt } = isUserExist;
+  const { id, name, email, photo, role, createdAt, updatedAt } = isUserExist;
   const result = {
     id,
     name,
     email,
     photo,
+    role,
     createdAt,
     updatedAt,
   };
@@ -53,7 +54,9 @@ const updateMe = async (token: string, data: Partial<User>): Promise<User> => {
 };
 
 const getAllUsers = async () => {
-  const result = await prisma.user.findMany();
+  const result = await prisma.user.findMany({
+    orderBy: { createdAt: "desc" },
+  });
   return result;
 };
 const updateUsers = async (id: string, data: TUser) => {
@@ -73,10 +76,38 @@ const deleteUser = async (id: string) => {
   });
   return result;
 };
+
+//for dashboard-----------------------------
+const getUsersDependOnStatus = async () => {
+  const totalUser = await prisma.user.count();
+  const activeUsers = await prisma.user.count({
+    where: {
+      status: UserStatus.ACTIVE,
+    },
+  });
+  const blockedUsers = await prisma.user.count({
+    where: {
+      status: UserStatus.BLOCKED,
+    },
+  });
+  const deletedUsers = await prisma.user.count({
+    where: {
+      status: UserStatus.DELETED,
+    },
+  });
+
+  return {
+    totalUser,
+    activeUsers,
+    blockedUsers,
+    deletedUsers,
+  };
+};
 export const userService = {
   getMe,
   updateMe,
   getAllUsers,
   updateUsers,
   deleteUser,
+  getUsersDependOnStatus,
 };

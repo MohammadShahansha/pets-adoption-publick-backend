@@ -17,7 +17,7 @@ const moduleRoute = [
     route: authRouter,
   },
   {
-    path: "/pets",
+    path: "/",
     route: petRoutes,
   },
   {

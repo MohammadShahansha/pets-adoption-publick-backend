@@ -18,5 +18,9 @@ router.delete(
   "/adoption-request/:requestId",
   adoptionReqController.deleteAdoptionReq
 );
+router.get(
+  "/adoption-request-status",
+  adoptionReqController.getAdoptionRequestStatus
+);
 
 export const adoptionReqRouter = router;

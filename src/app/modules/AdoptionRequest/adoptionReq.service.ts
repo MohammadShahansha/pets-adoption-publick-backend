@@ -3,7 +3,7 @@ import config from "../../../config";
 import { jwtHelper } from "../../../helpers/jwtHelpers";
 import prisma from "../../../shared/prisma";
 import { TAdoptionReq } from "./adoptionReqTypes";
-import { AdoptionRequest } from "@prisma/client";
+import { AdoptionRequest, RequestStatus } from "@prisma/client";
 
 const createAdoptionReq = async (token: string, payload: TAdoptionReq) => {
   let decodedData;
@@ -39,6 +39,9 @@ const getAllAdoptionReq = async (token: string) => {
     include: {
       pet: true,
       user: true,
+    },
+    orderBy: {
+      createdAt: "desc",
     },
   });
   return result;
@@ -81,9 +84,32 @@ const deleteAdoptionReq = async (token: string, requestId: string) => {
   return result;
 };
 
+//for dashboard -----------------------------------------
+
+const getAdoptionRequestStatus = async () => {
+  const totalRequest = await prisma.adoptionRequest.count();
+  const approvedRequest = await prisma.adoptionRequest.count({
+    where: {
+      status: RequestStatus.APPROVED,
+    },
+  });
+  const pendingRequest = await prisma.adoptionRequest.count({
+    where: {
+      status: RequestStatus.PENDING,
+    },
+  });
+  const rejectedRequest = await prisma.adoptionRequest.count({
+    where: {
+      status: RequestStatus.REJECTED,
+    },
+  });
+
+  return { totalRequest, approvedRequest, pendingRequest, rejectedRequest };
+};
 export const adoptionReqService = {
   createAdoptionReq,
   getAllAdoptionReq,
   updateAdoptionReq,
   deleteAdoptionReq,
+  getAdoptionRequestStatus,
 };

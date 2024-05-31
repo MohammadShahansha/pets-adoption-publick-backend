@@ -132,10 +132,25 @@ const getSinglePet = async (token: string, petId: string) => {
 
   return result;
 };
+
+const availablePets = async () => {
+  const pets = await prisma.pet.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  const totalPets = await prisma.pet.count();
+
+  return {
+    pets,
+    totalPets,
+  };
+};
 export const petService = {
   creatPets,
   getAllPet,
   updatePet,
   deletePet,
   getSinglePet,
+  availablePets,
 };

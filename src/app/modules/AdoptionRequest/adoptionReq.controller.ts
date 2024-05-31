@@ -54,9 +54,22 @@ const deleteAdoptionReq = catchAsync(async (req: Request, res: Response) => {
     message: "Adoption request deleted successfully",
   });
 });
+
+const getAdoptionRequestStatus = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await adoptionReqService.getAdoptionRequestStatus();
+    sendRespons(res, {
+      statusCode: 201,
+      success: true,
+      message: "Adoption request status retrived successfully",
+      data: result,
+    });
+  }
+);
 export const adoptionReqController = {
   createAdoptionReq,
   getAllAdoptionReq,
   updateAdoptionReq,
   deleteAdoptionReq,
+  getAdoptionRequestStatus,
 };

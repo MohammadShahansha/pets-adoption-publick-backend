@@ -8,4 +8,5 @@ router.put("/profile", userController.updateMe);
 router.get("/get-users", userController.getAllUsers);
 router.put("/update-user/:id", userController.updateUsers);
 router.delete("/delete-user/:id", userController.deleteUsers);
+router.get("/find-user-status", userController.getUsersDependOnStatus);
 export const userRoutes = router;

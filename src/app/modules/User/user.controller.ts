@@ -64,10 +64,25 @@ const deleteUsers = catchAsync(async (req: Request, res: Response) => {
     message: "User deleted successfully",
   });
 });
+
+//for dashboard----------------------------------------
+const getUsersDependOnStatus = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await userService.getUsersDependOnStatus();
+    sendRespons(res, {
+      statusCode: 200,
+      success: true,
+      message: "Users retrive depend on status successfully",
+      data: result,
+    });
+  }
+);
+
 export const userController = {
   getMe,
   updateMe,
   getAllUsers,
   updateUsers,
   deleteUsers,
+  getUsersDependOnStatus,
 };
