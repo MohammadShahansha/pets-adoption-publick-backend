@@ -11,7 +11,7 @@ router.post(
 );
 router.get(
   "/get-reviews",
-  auth(UserRole.ADMIN),
+  // auth(UserRole.ADMIN),
   reviewsController.getAllReviews
 );
 router.put(
@@ -22,7 +22,7 @@ router.put(
 
 router.get(
   "/home-reviews",
-  auth(UserRole.ADMIN),
+  auth(UserRole.ADMIN, UserRole.USER),
   reviewsController.getReviewsForHomePage
 );
 

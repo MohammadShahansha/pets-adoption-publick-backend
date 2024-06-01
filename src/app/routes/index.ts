@@ -5,6 +5,7 @@ import { petRoutes } from "../modules/Pets/pets.routes";
 import { adoptionReqRouter } from "../modules/AdoptionRequest/adoptionReq.routes";
 import { userRoutes } from "../modules/User/user.routes";
 import { reviewRoutes } from "../modules/Review/review.route";
+import { postRoutes } from "../modules/Post/post.router";
 
 const router = express.Router();
 const moduleRoute = [
@@ -31,6 +32,10 @@ const moduleRoute = [
   {
     path: "/",
     route: reviewRoutes,
+  },
+  {
+    path: "/",
+    route: postRoutes,
   },
 ];
 

@@ -26,9 +26,9 @@ const createReview = async (user: JwtPayload | null, payload: TPayload) => {
 
 const getAllReviews = async () => {
   const result = await prisma.review.findMany({
-    // where: {
-    //     status: ReviewStatus.APPROVED
-    // },
+    where: {
+      status: ReviewStatus.PENDING,
+    },
     include: {
       user: true,
     },
