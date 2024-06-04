@@ -36,8 +36,20 @@ const getAllPost = async () => {
   });
   return result;
 };
+const getSinglePost = async (id: string) => {
+  const result = await prisma.post.findUniqueOrThrow({
+    where: {
+      id: id,
+    },
+    include: {
+      user: true,
+    },
+  });
+  return result;
+};
 
 export const postService = {
   createPost,
   getAllPost,
+  getSinglePost,
 };
