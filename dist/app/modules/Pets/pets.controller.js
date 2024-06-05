@@ -50,8 +50,43 @@ const updatePet = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void
         data: result,
     });
 }));
+const deletePet = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { petId } = req.params;
+    const token = req.headers.authorization;
+    const result = yield pets_service_1.petService.deletePet(token, petId);
+    // console.log(result);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: "Pet delete successfully",
+    });
+}));
+const getSinglePet = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { petId } = req.params;
+    const token = req.headers.authorization;
+    const result = yield pets_service_1.petService.getSinglePet(token, petId);
+    // console.log(result);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: "Pet retrive successfully",
+        data: result,
+    });
+}));
+const availablePets = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield pets_service_1.petService.availablePets();
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: "Available pets retrive successfully",
+        data: result,
+    });
+}));
 exports.petController = {
     createpet,
     getAllPet,
     updatePet,
+    deletePet,
+    getSinglePet,
+    availablePets,
 };

@@ -35,7 +35,34 @@ const getAllAdoptionReq = async (token: string) => {
   } catch (err) {
     throw new Error("Unauthorized Access");
   }
+
   const result = await prisma.adoptionRequest.findMany({
+    include: {
+      pet: true,
+      user: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  return result;
+};
+const getUserAdoptionReq = async (token: string) => {
+  let decodedData;
+  try {
+    decodedData = jwtHelper.verifyToken(token, config.jwt.jwt_secret as Secret);
+  } catch (err) {
+    throw new Error("Unauthorized Access");
+  }
+  const isUserExist = await prisma.user.findUniqueOrThrow({
+    where: {
+      email: decodedData.email,
+    },
+  });
+  const result = await prisma.adoptionRequest.findMany({
+    where: {
+      userId: isUserExist.id,
+    },
     include: {
       pet: true,
       user: true,
@@ -109,6 +136,7 @@ const getAdoptionRequestStatus = async () => {
 export const adoptionReqService = {
   createAdoptionReq,
   getAllAdoptionReq,
+  getUserAdoptionReq,
   updateAdoptionReq,
   deleteAdoptionReq,
   getAdoptionRequestStatus,

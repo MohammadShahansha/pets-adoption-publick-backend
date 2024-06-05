@@ -9,18 +9,20 @@ const auth_route_1 = require("../modules/Auth/auth.route");
 const pets_routes_1 = require("../modules/Pets/pets.routes");
 const adoptionReq_routes_1 = require("../modules/AdoptionRequest/adoptionReq.routes");
 const user_routes_1 = require("../modules/User/user.routes");
+const review_route_1 = require("../modules/Review/review.route");
+const post_router_1 = require("../modules/Post/post.router");
 const router = express_1.default.Router();
 const moduleRoute = [
     {
-        path: "/register",
+        path: "/",
         route: register_route_1.registerRoutes,
     },
     {
-        path: "/login",
+        path: "/",
         route: auth_route_1.authRouter,
     },
     {
-        path: "/pets",
+        path: "/",
         route: pets_routes_1.petRoutes,
     },
     {
@@ -28,8 +30,16 @@ const moduleRoute = [
         route: adoptionReq_routes_1.adoptionReqRouter,
     },
     {
-        path: "/profile",
+        path: "/",
         route: user_routes_1.userRoutes,
+    },
+    {
+        path: "/",
+        route: review_route_1.reviewRoutes,
+    },
+    {
+        path: "/",
+        route: post_router_1.postRoutes,
     },
 ];
 moduleRoute.forEach((route) => router.use(route.path, route.route));

@@ -9,5 +9,5 @@ const register_controller_1 = require("./register.controller");
 const validateRequest_1 = __importDefault(require("../../../middleware/validateRequest"));
 const register_validation_1 = require("./register.validation");
 const router = express_1.default.Router();
-router.post("/", (0, validateRequest_1.default)(register_validation_1.userValidateRequest.userCreateValidationSchema), register_controller_1.registrationController.createUser);
+router.post("/register", (0, validateRequest_1.default)(register_validation_1.userValidateRequest.userCreateValidationSchema), register_controller_1.registrationController.createUser);
 exports.registerRoutes = router;

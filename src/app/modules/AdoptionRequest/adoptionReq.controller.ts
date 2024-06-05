@@ -22,7 +22,17 @@ const getAllAdoptionReq = catchAsync(async (req: Request, res: Response) => {
   sendRespons(res, {
     statusCode: 201,
     success: true,
-    message: "Adoption request submitted successfully",
+    message: "Adoption request retrived successfully",
+    data: result,
+  });
+});
+const getUserAdoptionReq = catchAsync(async (req: Request, res: Response) => {
+  const token = req.headers.authorization;
+  const result = await adoptionReqService.getUserAdoptionReq(token as string);
+  sendRespons(res, {
+    statusCode: 201,
+    success: true,
+    message: "Adoption request retrived successfully",
     data: result,
   });
 });
@@ -69,6 +79,7 @@ const getAdoptionRequestStatus = catchAsync(
 export const adoptionReqController = {
   createAdoptionReq,
   getAllAdoptionReq,
+  getUserAdoptionReq,
   updateAdoptionReq,
   deleteAdoptionReq,
   getAdoptionRequestStatus,

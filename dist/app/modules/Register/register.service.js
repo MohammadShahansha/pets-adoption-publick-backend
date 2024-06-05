@@ -43,7 +43,9 @@ const createUser = (data) => __awaiter(void 0, void 0, void 0, function* () {
     const userData = {
         name: data.name,
         email: data.email,
+        role: data.role,
         password: hashedPassword,
+        photo: data === null || data === void 0 ? void 0 : data.photo,
     };
     const result = yield prisma_1.default.user.create({
         data: userData,

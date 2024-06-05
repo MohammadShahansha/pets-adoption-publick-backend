@@ -54,16 +54,6 @@ const updateUsers = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
-const deleteUsers = catchAsync(async (req: Request, res: Response) => {
-  const { id } = req.params;
-  await userService.deleteUser(id);
-
-  sendRespons(res, {
-    statusCode: 200,
-    success: true,
-    message: "User deleted successfully",
-  });
-});
 
 //for dashboard----------------------------------------
 const getUsersDependOnStatus = catchAsync(
@@ -83,6 +73,6 @@ export const userController = {
   updateMe,
   getAllUsers,
   updateUsers,
-  deleteUsers,
+
   getUsersDependOnStatus,
 };

@@ -12,31 +12,41 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.authController = void 0;
+exports.postController = void 0;
 const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
-const auth_service_1 = require("./auth.service");
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
-const loginUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield auth_service_1.authService.loginUser(req.body);
-    (0, sendResponse_1.default)(res, {
-        success: true,
-        statusCode: 200,
-        message: " User logged in successfully",
-        data: result,
-    });
-}));
-const changePassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const post_service_1 = require("./post.service");
+const createPost = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.user;
-    const result = yield auth_service_1.authService.changePassword(user, req.body);
-    console.log(result);
+    const result = yield post_service_1.postService.createPost(user, req.body);
     (0, sendResponse_1.default)(res, {
+        statusCode: 201,
         success: true,
-        statusCode: 200,
-        message: " Password changed successfully",
+        message: "Post Created successfully",
         data: result,
     });
 }));
-exports.authController = {
-    loginUser,
-    changePassword,
+const getAllPost = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield post_service_1.postService.getAllPost();
+    (0, sendResponse_1.default)(res, {
+        statusCode: 201,
+        success: true,
+        message: "All Post Retrive Successfully",
+        data: result,
+    });
+}));
+const getSinglePost = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield post_service_1.postService.getSinglePost(id);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 201,
+        success: true,
+        message: "Single Post Retrive Successfully",
+        data: result,
+    });
+}));
+exports.postController = {
+    createPost,
+    getAllPost,
+    getSinglePost,
 };

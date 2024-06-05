@@ -10,6 +10,7 @@ router.post(
   adoptionReqController.createAdoptionReq
 );
 router.get("/adoption-requests", adoptionReqController.getAllAdoptionReq);
+router.get("/user-adoption-requests", adoptionReqController.getUserAdoptionReq);
 router.put(
   "/adoption-requests/:requestId",
   adoptionReqController.updateAdoptionReq

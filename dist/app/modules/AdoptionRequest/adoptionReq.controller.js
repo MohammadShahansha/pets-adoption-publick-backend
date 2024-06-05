@@ -32,13 +32,24 @@ const getAllAdoptionReq = (0, catchAsync_1.default)((req, res) => __awaiter(void
     (0, sendResponse_1.default)(res, {
         statusCode: 201,
         success: true,
-        message: "Adoption request submitted successfully",
+        message: "Adoption request retrived successfully",
+        data: result,
+    });
+}));
+const getUserAdoptionReq = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const token = req.headers.authorization;
+    const result = yield adoptionReq_service_1.adoptionReqService.getUserAdoptionReq(token);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 201,
+        success: true,
+        message: "Adoption request retrived successfully",
         data: result,
     });
 }));
 const updateAdoptionReq = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { requestId } = req.params;
     const token = req.headers.authorization;
+    // console.log("body", req.body, "reqId", requestId, "token", token);
     const result = yield adoptionReq_service_1.adoptionReqService.updateAdoptionReq(token, requestId, req.body);
     (0, sendResponse_1.default)(res, {
         statusCode: 200,
@@ -47,8 +58,30 @@ const updateAdoptionReq = (0, catchAsync_1.default)((req, res) => __awaiter(void
         data: result,
     });
 }));
+const deleteAdoptionReq = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { requestId } = req.params;
+    const token = req.headers.authorization;
+    yield adoptionReq_service_1.adoptionReqService.deleteAdoptionReq(token, requestId);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: "Adoption request deleted successfully",
+    });
+}));
+const getAdoptionRequestStatus = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield adoptionReq_service_1.adoptionReqService.getAdoptionRequestStatus();
+    (0, sendResponse_1.default)(res, {
+        statusCode: 201,
+        success: true,
+        message: "Adoption request status retrived successfully",
+        data: result,
+    });
+}));
 exports.adoptionReqController = {
     createAdoptionReq,
     getAllAdoptionReq,
+    getUserAdoptionReq,
     updateAdoptionReq,
+    deleteAdoptionReq,
+    getAdoptionRequestStatus,
 };

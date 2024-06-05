@@ -40,6 +40,7 @@ const prisma_1 = __importDefault(require("../../../shared/prisma"));
 const bcrypt = __importStar(require("bcrypt"));
 const jwtHelpers_1 = require("../../../helpers/jwtHelpers");
 const config_1 = __importDefault(require("../../../config"));
+const client_1 = require("@prisma/client");
 const loginUser = (payloads) => __awaiter(void 0, void 0, void 0, function* () {
     const userData = yield prisma_1.default.user.findUniqueOrThrow({
         where: {
@@ -52,62 +53,44 @@ const loginUser = (payloads) => __awaiter(void 0, void 0, void 0, function* () {
     }
     const accessToken = jwtHelpers_1.jwtHelper.generateToken({
         email: userData.email,
+        role: userData.role,
     }, config_1.default.jwt.jwt_secret, config_1.default.jwt.expires_in);
     const result = {
         id: userData.id,
         name: userData.name,
         email: userData.email,
+        role: userData.role,
         token: accessToken,
     };
     return result;
 });
-//   const userData = await prisma.user.findUniqueOrThrow({
-//     where: {
-//       email: user.email,
-//       status: UserStatus.ACTIVE,
-//     },
-//   });
-//   const isCorrectPassword: boolean = await bcrypt.compare(
-//     payload.oldPassword,
-//     userData.password
-//   );
-//   if (!isCorrectPassword) {
-//     throw new Error("Password is not matche");
-//   }
-//   const hashedPassword: string = await bcrypt.hash(payload.newPassword, 12);
-//   await prisma.user.update({
-//     where: {
-//       email: userData.email,
-//     },
-//     data: {
-//       password: hashedPassword,
-//       needPasswordChange: false,
-//     },
-//   });
-//   return {
-//     message: "password  change successfully",
-//   };
-// };
-// const forgetPassword = async (payload: { email: string }) => {
-//   const userData = await prisma.user.findUniqueOrThrow({
-//     where: {
-//       email: payload.email,
-//       status: UserStatus.ACTIVE,
-//     },
-//   });
-//   const resetPasswordToken = jwtHelper.generateToken(
-//     {
-//       email: userData.email,
-//       role: userData.role,
-//     },
-//     config.jwt.reset_token_secret as Secret,
-//     config.jwt.reset_token_expires_in as string
-//   );
-//   const resetPasswordLink =
-//     config.reset_password_link +
-//     `?userId=${userData.id}&token=${resetPasswordToken}`;
-//   console.log(resetPasswordLink);
-// };
+const changePassword = (user, payloads) => __awaiter(void 0, void 0, void 0, function* () {
+    const userData = yield prisma_1.default.user.findFirstOrThrow({
+        where: {
+            email: user === null || user === void 0 ? void 0 : user.email,
+            status: client_1.UserStatus.ACTIVE,
+        },
+    });
+    console.log(userData);
+    const isCorrectPassword = yield bcrypt.compare(payloads.oldPassword, userData.password);
+    if (!isCorrectPassword) {
+        throw new Error("password is not match");
+    }
+    const hashedPassword = yield bcrypt.hash(payloads.newPassword, 12);
+    yield prisma_1.default.user.update({
+        where: {
+            email: userData.email,
+        },
+        data: {
+            password: hashedPassword,
+            needPasswordChange: false,
+        },
+    });
+    return {
+        message: "Password successfully changed",
+    };
+});
 exports.authService = {
     loginUser,
+    changePassword,
 };

@@ -68,14 +68,14 @@ const updateUsers = async (id: string, data: TUser) => {
   });
   return result;
 };
-const deleteUser = async (id: string) => {
-  const result = await prisma.user.delete({
-    where: {
-      id: id,
-    },
-  });
-  return result;
-};
+// const deleteUser = async (id: string) => {
+//   const result = await prisma.user.delete({
+//     where: {
+//       id: id,
+//     },
+//   });
+//   return result;
+// };
 
 //for dashboard-----------------------------
 const getUsersDependOnStatus = async () => {
@@ -108,6 +108,5 @@ export const userService = {
   updateMe,
   getAllUsers,
   updateUsers,
-  deleteUser,
   getUsersDependOnStatus,
 };

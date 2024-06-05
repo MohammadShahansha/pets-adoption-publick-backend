@@ -106,8 +106,61 @@ const updatePet = (token, petId, data) => __awaiter(void 0, void 0, void 0, func
     });
     return result;
 });
+const deletePet = (token, petId) => __awaiter(void 0, void 0, void 0, function* () {
+    let decodedData;
+    try {
+        decodedData = jwtHelpers_1.jwtHelper.verifyToken(token, config_1.default.jwt.jwt_secret);
+    }
+    catch (err) {
+        throw new Error("Unauthorized Access");
+    }
+    const result = yield prisma_1.default.$transaction((transectionClient) => __awaiter(void 0, void 0, void 0, function* () {
+        yield transectionClient.adoptionRequest.deleteMany({
+            where: {
+                petId: petId,
+            },
+        });
+        const petDelete = yield transectionClient.pet.delete({
+            where: {
+                id: petId,
+            },
+        });
+        return petDelete;
+    }));
+    return result;
+});
+const getSinglePet = (token, petId) => __awaiter(void 0, void 0, void 0, function* () {
+    let decodedData;
+    try {
+        decodedData = jwtHelpers_1.jwtHelper.verifyToken(token, config_1.default.jwt.jwt_secret);
+    }
+    catch (err) {
+        throw new Error("Unauthorized Access");
+    }
+    const result = yield prisma_1.default.pet.findUniqueOrThrow({
+        where: {
+            id: petId,
+        },
+    });
+    return result;
+});
+const availablePets = () => __awaiter(void 0, void 0, void 0, function* () {
+    const pets = yield prisma_1.default.pet.findMany({
+        orderBy: {
+            createdAt: "desc",
+        },
+    });
+    const totalPets = yield prisma_1.default.pet.count();
+    return {
+        pets,
+        totalPets,
+    };
+});
 exports.petService = {
     creatPets,
     getAllPet,
     updatePet,
+    deletePet,
+    getSinglePet,
+    availablePets,
 };

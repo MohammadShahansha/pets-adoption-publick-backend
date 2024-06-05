@@ -16,7 +16,8 @@ exports.userService = void 0;
 const config_1 = __importDefault(require("../../../config"));
 const jwtHelpers_1 = require("../../../helpers/jwtHelpers");
 const prisma_1 = __importDefault(require("../../../shared/prisma"));
-const getUser = (token) => __awaiter(void 0, void 0, void 0, function* () {
+const client_1 = require("@prisma/client");
+const getMe = (token) => __awaiter(void 0, void 0, void 0, function* () {
     let decodedData;
     try {
         decodedData = jwtHelpers_1.jwtHelper.verifyToken(token, config_1.default.jwt.jwt_secret);
@@ -29,17 +30,19 @@ const getUser = (token) => __awaiter(void 0, void 0, void 0, function* () {
             email: decodedData.email,
         },
     });
-    const { id, name, email, createdAt, updatedAt } = isUserExist;
+    const { id, name, email, photo, role, createdAt, updatedAt } = isUserExist;
     const result = {
         id,
         name,
         email,
+        photo,
+        role,
         createdAt,
         updatedAt,
     };
     return result;
 });
-const updateUser = (token, data) => __awaiter(void 0, void 0, void 0, function* () {
+const updateMe = (token, data) => __awaiter(void 0, void 0, void 0, function* () {
     let decodedData;
     try {
         decodedData = jwtHelpers_1.jwtHelper.verifyToken(token, config_1.default.jwt.jwt_secret);
@@ -60,7 +63,58 @@ const updateUser = (token, data) => __awaiter(void 0, void 0, void 0, function* 
     });
     return result;
 });
+const getAllUsers = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma_1.default.user.findMany({
+        orderBy: { createdAt: "desc" },
+    });
+    return result;
+});
+const updateUsers = (id, data) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma_1.default.user.update({
+        where: {
+            id: id,
+        },
+        data,
+    });
+    return result;
+});
+// const deleteUser = async (id: string) => {
+//   const result = await prisma.user.delete({
+//     where: {
+//       id: id,
+//     },
+//   });
+//   return result;
+// };
+//for dashboard-----------------------------
+const getUsersDependOnStatus = () => __awaiter(void 0, void 0, void 0, function* () {
+    const totalUser = yield prisma_1.default.user.count();
+    const activeUsers = yield prisma_1.default.user.count({
+        where: {
+            status: client_1.UserStatus.ACTIVE,
+        },
+    });
+    const blockedUsers = yield prisma_1.default.user.count({
+        where: {
+            status: client_1.UserStatus.BLOCKED,
+        },
+    });
+    const deletedUsers = yield prisma_1.default.user.count({
+        where: {
+            status: client_1.UserStatus.DELETED,
+        },
+    });
+    return {
+        totalUser,
+        activeUsers,
+        blockedUsers,
+        deletedUsers,
+    };
+});
 exports.userService = {
-    getUser,
-    updateUser,
+    getMe,
+    updateMe,
+    getAllUsers,
+    updateUsers,
+    getUsersDependOnStatus,
 };

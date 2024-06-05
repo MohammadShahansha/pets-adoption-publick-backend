@@ -17,12 +17,16 @@ const register_service_1 = require("./register.service");
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const createUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body);
     const result = yield register_service_1.registrationService.createUser(req.body);
-    const { id, name, email, createdAt, updatedAt } = result;
+    console.log(result);
+    const { id, name, email, role, photo, createdAt, updatedAt } = result;
     const resultWithoutPassword = {
         id,
         name,
         email,
+        role,
+        photo,
         createdAt,
         updatedAt,
     };
