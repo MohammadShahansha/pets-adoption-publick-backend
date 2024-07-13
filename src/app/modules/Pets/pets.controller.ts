@@ -15,6 +15,7 @@ const createpet = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
 const getAllPet = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, petFilterableFields);
   const options = pick(req.query, ["page", "limit", "sortBy", "sortOrder"]);
@@ -26,6 +27,7 @@ const getAllPet = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
 const updatePet = catchAsync(async (req: Request, res: Response) => {
   const { petId } = req.params;
   const token = req.headers.authorization;
@@ -37,6 +39,7 @@ const updatePet = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
 const deletePet = catchAsync(async (req: Request, res: Response) => {
   const { petId } = req.params;
   const token = req.headers.authorization;
@@ -48,6 +51,7 @@ const deletePet = catchAsync(async (req: Request, res: Response) => {
     message: "Pet delete successfully",
   });
 });
+
 const getSinglePet = catchAsync(async (req: Request, res: Response) => {
   const { petId } = req.params;
   const token = req.headers.authorization;
@@ -70,6 +74,7 @@ const availablePets = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
 export const petController = {
   createpet,
   getAllPet,
