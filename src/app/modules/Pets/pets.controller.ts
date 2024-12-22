@@ -54,8 +54,8 @@ const deletePet = catchAsync(async (req: Request, res: Response) => {
 
 const getSinglePet = catchAsync(async (req: Request, res: Response) => {
   const { petId } = req.params;
-  const token = req.headers.authorization;
-  const result = await petService.getSinglePet(token as string, petId);
+  // const token = req.headers.authorization;
+  const result = await petService.getSinglePet(petId);
   // console.log(result);
   sendRespons(res, {
     statusCode: 200,

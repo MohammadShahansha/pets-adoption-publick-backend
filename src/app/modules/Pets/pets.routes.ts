@@ -11,8 +11,9 @@ router.post(
   petController.createpet
 );
 router.get("/pets", petController.getAllPet);
+
+router.get("/pets/:petId", petController.getSinglePet);
 router.put("/pets/:petId", petController.updatePet);
 router.delete("/pets/:petId", petController.deletePet);
-router.get("/pets/:petId", petController.getSinglePet);
 router.get("/availavle-pets", petController.availablePets);
 export const petRoutes = router;

@@ -63,8 +63,8 @@ const deletePet = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void
 }));
 const getSinglePet = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { petId } = req.params;
-    const token = req.headers.authorization;
-    const result = yield pets_service_1.petService.getSinglePet(token, petId);
+    // const token = req.headers.authorization;
+    const result = yield pets_service_1.petService.getSinglePet(petId);
     // console.log(result);
     (0, sendResponse_1.default)(res, {
         statusCode: 200,

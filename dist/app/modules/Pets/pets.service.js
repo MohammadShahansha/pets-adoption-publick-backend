@@ -129,14 +129,13 @@ const deletePet = (token, petId) => __awaiter(void 0, void 0, void 0, function* 
     }));
     return result;
 });
-const getSinglePet = (token, petId) => __awaiter(void 0, void 0, void 0, function* () {
-    let decodedData;
-    try {
-        decodedData = jwtHelpers_1.jwtHelper.verifyToken(token, config_1.default.jwt.jwt_secret);
-    }
-    catch (err) {
-        throw new Error("Unauthorized Access");
-    }
+const getSinglePet = (petId) => __awaiter(void 0, void 0, void 0, function* () {
+    // let decodedData;
+    // try {
+    //   decodedData = jwtHelper.verifyToken(token, config.jwt.jwt_secret as Secret);
+    // } catch (err) {
+    //   throw new Error("Unauthorized Access");
+    // }
     const result = yield prisma_1.default.pet.findUniqueOrThrow({
         where: {
             id: petId,

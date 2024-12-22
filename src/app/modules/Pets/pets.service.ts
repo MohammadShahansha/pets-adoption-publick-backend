@@ -117,13 +117,13 @@ const deletePet = async (token: string, petId: string) => {
   });
   return result;
 };
-const getSinglePet = async (token: string, petId: string) => {
-  let decodedData;
-  try {
-    decodedData = jwtHelper.verifyToken(token, config.jwt.jwt_secret as Secret);
-  } catch (err) {
-    throw new Error("Unauthorized Access");
-  }
+const getSinglePet = async (petId: string) => {
+  // let decodedData;
+  // try {
+  //   decodedData = jwtHelper.verifyToken(token, config.jwt.jwt_secret as Secret);
+  // } catch (err) {
+  //   throw new Error("Unauthorized Access");
+  // }
   const result = await prisma.pet.findUniqueOrThrow({
     where: {
       id: petId,
